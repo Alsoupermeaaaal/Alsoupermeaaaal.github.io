@@ -146,7 +146,7 @@ function clearFieldValues(){
     statuss.value ="";
     title.value ="";
     orderedby.value ="";
-    loc.value ="";
+    loc.value ="";  
     ordereddate.value ="";
     shipdate1.value ="";
     quantity1.value ="";
@@ -155,12 +155,12 @@ function clearFieldValues(){
     let showcloseBtns = modalMain.querySelector("#modal-btn-close");
     showcloseBtns.classList.remove('d-none');
     let showcancelBtns = modalMain.querySelector("#modal-btn-Cancel");
-    showcancelBtns.classList.add('d-none');
+    showcancelBtns.classList.add('d-none'); 
     let showsaveBtns = modalMain.querySelector("#modal-btn-save");
     showsaveBtns.classList.add('d-none');
     let showcompleteBtns = modalMain.querySelector("#modal-btn-complete");
     showcompleteBtns.classList.add('d-none');
-    showBtns = modalMain.querySelector("#modal-btn-create");
+    let showBtns = modalMain.querySelector("#modal-btn-create");
     showBtns.classList.remove('d-none');
     
     
@@ -244,6 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
     addButton = document.querySelector('#add-ticket');
     addButton.addEventListener('click', function(){
         console.log("ADD BUTTON WAS CLICK");
+        clearFieldValues();
         
     });
 
@@ -263,7 +264,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 row.remove();
             });
         });
+
     });
+    
 
 });
  
