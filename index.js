@@ -128,10 +128,43 @@ function showHideModalButtons(row, state ='')
             showcompleteBtns.classList.add('d-none');
         }
     }
+
     
 }
 
+function clearFieldValues(){
+    let modalMain   = document.querySelector("#viewTicketModal");
+    let statuss     = document.querySelector('#field-status');
+    let title     = document.querySelector('#request-title');
+    let orderedby     = document.querySelector('#ordered-by');
+    let loc     = document.querySelector('#location');
+    let ordereddate     = document.querySelector('#ordered-date');
+    let shipdate1     = document.querySelector('#shipment-date');
+    let quantity1     = document.querySelector('#quantity');
+    let modeofpayment     = document.querySelector('#payment-mode');
 
+    statuss.value ="";
+    title.value ="";
+    orderedby.value ="";
+    loc.value ="";
+    ordereddate.value ="";
+    shipdate1.value ="";
+    quantity1.value ="";
+    modeofpayment.value ="";
+
+    let showcloseBtns = modalMain.querySelector("#modal-btn-close");
+    showcloseBtns.classList.remove('d-none');
+    let showcancelBtns = modalMain.querySelector("#modal-btn-Cancel");
+    showcancelBtns.classList.add('d-none');
+    let showsaveBtns = modalMain.querySelector("#modal-btn-save");
+    showsaveBtns.classList.add('d-none');
+    let showcompleteBtns = modalMain.querySelector("#modal-btn-complete");
+    showcompleteBtns.classList.add('d-none');
+    showBtns = modalMain.querySelector("#modal-btn-create");
+    showBtns.classList.remove('d-none');
+    
+    
+}
   
 //MAIN CONTENT
 document.addEventListener('DOMContentLoaded', function() {
@@ -198,11 +231,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     });
 
+    //MODAL WINDOW
+    modalWindow =  document.querySelector('#viewTicketModal');
+    modalWindow.addEventListener("hidden.bs.modal", function(){
+        const inputFields = document.querySelectorAll(".form-control");
+        inputFields.forEach(input => {
+           input.setAttribute("disabled","");
+        });
+    })
+
+    //Add Button
+    addButton = document.querySelector('#add-ticket');
+    addButton.addEventListener('click', function(){
+        console.log("ADD BUTTON WAS CLICK");
+        
+    });
 
 
-
-
-
+    
     // Delete Button
     deleteButton = document.querySelectorAll('.delete-ticket');
     deleteButton.forEach(function(button)
@@ -218,6 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
+
 });
  
 
