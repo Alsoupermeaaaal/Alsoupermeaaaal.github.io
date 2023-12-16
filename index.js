@@ -171,7 +171,7 @@ function clearFieldValues(){
 function addTicketRecord(){
     let modalHeader = document.querySelector("#viewTicketModal");
     
-    let statuss     = document.querySelector('#field-status');
+    let statuss = document.querySelector('#field-status');
     let title     = document.querySelector('#request-title');
     let orderedby     = document.querySelector('#ordered-by');
     let loc     = document.querySelector('#location');
@@ -183,8 +183,7 @@ function addTicketRecord(){
     const tblRow   = document.querySelector("#on-going");
     const tblBody  = tblRow.querySelector('tbody');
 
-    let newRow     = tblBody.insertRow();
-
+    let newRow = tblBody.insertRow();
     let col1 = newRow.insertCell(0); //Proj no
     let col2 = newRow.insertCell(1); //title
     let col3 = newRow.insertCell(2); //requested by   
@@ -197,17 +196,17 @@ function addTicketRecord(){
     let col10 = newRow.insertCell(9); 
 
     col1.outerHTML = `<td class="align-middle">${modalHeader.value}</td>`;
-    col3.outerHTML = `<td class="align-middle">${statuss.value}</td>`;
-    col2.outerHTML = `<td class="align-middle">${title.value}</td>`;
+    col2.outerHTML = `<td class="align-middle">${statuss.value}</td>`;
+    col3.outerHTML = `<td class="align-middle">${title.value}</td>`;
     col4.outerHTML = `<td class="align-middle">${orderedby.value}</td>`;
     col5.outerHTML = `<td class="align-middle">${loc.value}</td>`;
     col6.outerHTML = `<td class="align-middle">${ordereddate.value}</td>`;
     col7.outerHTML = `<td class="align-middle">${shipdate1.value}</td>`;
     col8.outerHTML = `<td class="align-middle">${modeofpayment.value}</td>`;
-    col9.outerHTML = `<td class="align-middle text-center">
-    <button class="btn btn-info view-deck" data-bs-toggle="modal" data-bs-target="#viewModal">view</button>
-    <button class="btn btn-warning edit-deck" data-bs-toggle="modal" data-bs-target="#viewModal">Edit</button>
-    <button class="btn btn-danger delete-deck" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+    col9.outerHTML = `<td class="align-middle text-center"> 
+    <button class="btn btn-success view-ticket" data-bs-toggle="modal" data-bs-target="#viewTicketModal">View</button>
+    <button class="btn btn-danger edit-ticket" data-bs-toggle="modal" data-bs-target="#viewTicketModal">Edit</button>
+    <button class="btn btn-warning ms-1 me-1 delete-ticket"data-bs-toggle="modal" data-bs-target="#deleteModal" >Delete</button>
     </td>`  ;
 
     // generateToast("text-bg-success",`Inputted deck is ADDED`);
