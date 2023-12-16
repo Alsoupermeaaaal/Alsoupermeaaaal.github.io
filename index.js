@@ -47,16 +47,16 @@ function assignRowFieldValues(row){
     let payment_mode = document.getElementById('payment-mode');
     payment_mode.value = columns[6].textContent;
 
-    // let Canccelled_Date = document.getElementById('cancelled-date');
-    // let canceldate = document.getElementById('canceld');
+    let Canccelled_Date = document.getElementById('cancelled-date');
+    let canceldate = document.getElementById('canceld');
 
-    // Canccelled_Date.value = columns[4].textContent;
-    // if(cancelled.getAttribute("id") == 'on Going' || cancelled.getAttribute("id") == 'completed'){
-    //     Canccelled_Date.classList.add('d-none');
-    //     Canccelled_Date.classList.add('d-none');
-    // } else {
-    //     Canccelled_Date.classList.remove('d-none');
-    // }
+    Canccelled_Date.value = columns[4].textContent;
+    if(cancelled.getAttribute("id") == 'on Going' || cancelled.getAttribute("id") == 'completed'){
+        Canccelled_Date.classList.add('d-none');
+        Canccelled_Date.classList.add('d-none');
+    } else {
+        Canccelled_Date.classList.remove('d-none');
+    }
     
 
 
@@ -93,6 +93,8 @@ function showHideModalButtons(row, state ='')
             showcancelBtns.classList.remove('d-none');
             let showsaveBtns = modalMain.querySelector("#modal-btn-save");
             showsaveBtns.classList.add('d-none');
+            let showcreateBtns = modalMain.querySelector("#modal-btn-create");
+            showcreateBtns.classList.add('d-none');
         }else if(state == "edit") {
             let showcompleteBtns = modalMain.querySelector("#modal-btn-complete");
             showcompleteBtns.classList.add('d-none');
@@ -100,6 +102,8 @@ function showHideModalButtons(row, state ='')
             showcancelBtns.classList.add('d-none');
             let showsaveBtns = modalMain.querySelector("#modal-btn-save");
             showsaveBtns.classList.remove('d-none');
+            let showcreateBtns = modalMain.querySelector("#modal-btn-create");
+            showcreateBtns.classList.add('d-none');
         }
     }
     if(status.includes("Completed")){    
@@ -113,6 +117,11 @@ function showHideModalButtons(row, state ='')
             showsaveBtns.classList.add('d-none');
             let showcompleteBtns = modalMain.querySelector("#modal-btn-complete");
             showcompleteBtns.classList.add('d-none');
+            let showcreateBtns = modalMain.querySelector("#modal-btn-create");
+            showcreateBtns.classList.add('d-none');
+
+            
+
         }
     }
     if(status.includes("Cancelled")){    
@@ -126,6 +135,8 @@ function showHideModalButtons(row, state ='')
             showsaveBtns.classList.add('d-none');
             let showcompleteBtns = modalMain.querySelector("#modal-btn-complete");
             showcompleteBtns.classList.add('d-none');
+            let showcreateBtns = modalMain.querySelector("#modal-btn-create");
+            showcreateBtns.classList.add('d-none');
         }
     }
 
@@ -196,14 +207,15 @@ function addTicketRecord(){
     let col10 = newRow.insertCell(9); 
 
     col1.outerHTML = `<td class="align-middle">${modalHeader.value}</td>`;
-    col2.outerHTML = `<td class="align-middle">${statuss.value}</td>`;
-    col3.outerHTML = `<td class="align-middle">${title.value}</td>`;
-    col4.outerHTML = `<td class="align-middle">${orderedby.value}</td>`;
-    col5.outerHTML = `<td class="align-middle">${loc.value}</td>`;
-    col6.outerHTML = `<td class="align-middle">${ordereddate.value}</td>`;
-    col7.outerHTML = `<td class="align-middle">${shipdate1.value}</td>`;
+    col2.outerHTML = `<td class="align-middle">${title.value}</td>`;
+    col3.outerHTML = `<td class="align-middle">${orderedby.value}</td>`;
+    col4.outerHTML = `<td class="align-middle">${loc.value}</td>`;
+    col5.outerHTML = `<td class="align-middle">${ordereddate.value}</td>`;
+    col6.outerHTML = `<td class="align-middle">${shipdate1.value}</td>`;
+    col7.outerHTML = `<td class="align-middle">${quantity1.value}</td>`;
     col8.outerHTML = `<td class="align-middle">${modeofpayment.value}</td>`;
-    col9.outerHTML = `<td class="align-middle text-center"> 
+    col9.outerHTML = `<td class="align-middle">${statuss.value}</td>`;
+    col10.outerHTML = `<td class="align-middle text-center"> 
     <button class="btn btn-success view-ticket" data-bs-toggle="modal" data-bs-target="#viewTicketModal">View</button>
     <button class="btn btn-danger edit-ticket" data-bs-toggle="modal" data-bs-target="#viewTicketModal">Edit</button>
     <button class="btn btn-warning ms-1 me-1 delete-ticket"data-bs-toggle="modal" data-bs-target="#deleteModal" >Delete</button>
@@ -295,17 +307,17 @@ document.addEventListener('DOMContentLoaded', function() {
         clearFieldValues();
         const inputFields = document.querySelectorAll(".form-control");
         inputFields.forEach(input => {
-            if(input.id != "date-completed" && input.id != "field-status") input.removeAttribute("disabled");
+            if(input.id != "date-completed" && input.id != "field-status") 
+            {input.removeAttribute("disabled");}
         });
-
-        const createButton = document.querySelector("#modal-btn-create");
-        createButton.addEventListener('click', function(){ 
-            addTicketRecord();
-
-        });
-
-
     });
+
+    const createButton = document.querySelector("#modal-btn-create");
+    createButton.addEventListener('click', function(){
+        addTicketRecord();
+    });
+
+    
 
 
     
@@ -325,10 +337,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
     });
-    const createButton = document.querySelector("#modal-btn-create");
-        createButton.addEventListener('click', function(){
-            addTicketRecord();
-        });
+   
     
 
 });
