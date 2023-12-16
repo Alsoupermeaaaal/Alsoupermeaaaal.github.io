@@ -132,6 +132,7 @@ function showHideModalButtons(row, state ='')
     
 }
 
+//Clear Field Values for Add Project
 function clearFieldValues(){
     let modalMain   = document.querySelector("#viewTicketModal");
     let statuss     = document.querySelector('#field-status');
@@ -165,6 +166,54 @@ function clearFieldValues(){
     
     
 }
+
+//Add Project
+function addTicketRecord(){
+    let modalHeader = document.querySelector("#viewTicketModal");
+    
+    let statuss     = document.querySelector('#field-status');
+    let title     = document.querySelector('#request-title');
+    let orderedby     = document.querySelector('#ordered-by');
+    let loc     = document.querySelector('#location');
+    let ordereddate     = document.querySelector('#ordered-date');
+    let shipdate1     = document.querySelector('#shipment-date');
+    let quantity1     = document.querySelector('#quantity');
+    let modeofpayment     = document.querySelector('#payment-mode');
+
+    const tblRow   = document.querySelector("#on-going");
+    const tblBody  = tblRow.querySelector('tbody');
+
+    let newRow     = tblBody.insertRow();
+
+    let col1 = newRow.insertCell(0); //Proj no
+    let col2 = newRow.insertCell(1); //title
+    let col3 = newRow.insertCell(2); //requested by   
+    let col4 = newRow.insertCell(3); //status
+    let col5 = newRow.insertCell(4); //action
+    let col6 = newRow.insertCell(5); //status
+    let col7 = newRow.insertCell(6); //action
+    let col8 = newRow.insertCell(7); //status
+    let col9 = newRow.insertCell(8); //action
+    let col10 = newRow.insertCell(9); 
+
+    col1.outerHTML = `<td class="align-middle">${modalHeader.value}</td>`;
+    col3.outerHTML = `<td class="align-middle">${statuss.value}</td>`;
+    col2.outerHTML = `<td class="align-middle">${title.value}</td>`;
+    col4.outerHTML = `<td class="align-middle">${orderedby.value}</td>`;
+    col5.outerHTML = `<td class="align-middle">${loc.value}</td>`;
+    col6.outerHTML = `<td class="align-middle">${ordereddate.value}</td>`;
+    col7.outerHTML = `<td class="align-middle">${shipdate1.value}</td>`;
+    col8.outerHTML = `<td class="align-middle">${modeofpayment.value}</td>`;
+    col9.outerHTML = `<td class="align-middle text-center">
+    <button class="btn btn-info view-deck" data-bs-toggle="modal" data-bs-target="#viewModal">view</button>
+    <button class="btn btn-warning edit-deck" data-bs-toggle="modal" data-bs-target="#viewModal">Edit</button>
+    <button class="btn btn-danger delete-deck" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+    </td>`  ;
+
+    // generateToast("text-bg-success",`Inputted deck is ADDED`);
+
+}
+
   
 //MAIN CONTENT
 document.addEventListener('DOMContentLoaded', function() {
@@ -245,7 +294,18 @@ document.addEventListener('DOMContentLoaded', function() {
     addButton.addEventListener('click', function(){
         console.log("ADD BUTTON WAS CLICK");
         clearFieldValues();
-        
+        const inputFields = document.querySelectorAll(".form-control");
+        inputFields.forEach(input => {
+            if(input.id != "date-completed" && input.id != "field-status") input.removeAttribute("disabled");
+        });
+
+        const createButton = document.querySelector("#modal-btn-create");
+        createButton.addEventListener('click', function(){ 
+            addTicketRecord();
+
+        });
+
+
     });
 
 
@@ -266,6 +326,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
     });
+    const createButton = document.querySelector("#modal-btn-create");
+        createButton.addEventListener('click', function(){
+            addTicketRecord();
+        });
     
 
 });
