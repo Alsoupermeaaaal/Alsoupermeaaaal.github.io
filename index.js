@@ -1,8 +1,11 @@
+currentRow = null;
+
+//Header Color
 function changeModalHeaderColor(status){
     let modalHeader = document.getElementById('modal-header');
     modalHeader.classList.remove('bg-warning','bg-success','bg-success','bg-danger');
     switch (status) {
-        case 'ongoing':
+        case 'shipdate':
           modalHeader.classList.add('bg-warning');
          break;
         case 'On Queue':
@@ -16,9 +19,7 @@ function changeModalHeaderColor(status){
      
 }
 
-
-
-
+//Fields Assignment
 function assignRowFieldValues(row){
     let tableNmae = row.parentElement.parentElement;
     let cancelled = row.parentElement.parentElement;
@@ -49,20 +50,21 @@ function assignRowFieldValues(row){
 
     let Canccelled_Date = document.getElementById('cancelled-date');
     let canceldate = document.getElementById('canceld');
+    let status = document.getElementById('field-status');
 
     Canccelled_Date.value = columns[4].textContent;
-    if(cancelled.getAttribute("id") == 'on Going' || cancelled.getAttribute("id") == 'completed'){
+    if(status.value == 'on Going' || status.value == 'completed'){
         Canccelled_Date.classList.add('d-none');
         Canccelled_Date.classList.add('d-none');
-    } else {
+    } if(status.value ==  'cancelled') {
         Canccelled_Date.classList.remove('d-none');
+        shipdate.classList.add('d-none');
     }
     
 
 
-    let status = document.getElementById('field-status');
     if(tableNmae.getAttribute("id") == 'on-going'){
-        status.value = columns[8].textContent;
+        status.value = columns[7].textContent;
     } else {
         status.value = columns[7].textContent;
     }
@@ -154,6 +156,7 @@ function clearFieldValues(){
     let shipdate1     = document.querySelector('#shipment-date');
     let quantity1     = document.querySelector('#quantity');
     let modeofpayment     = document.querySelector('#payment-mode');
+    
 
     statuss.value ="";
     title.value ="";
@@ -163,6 +166,12 @@ function clearFieldValues(){
     shipdate1.value ="";
     quantity1.value ="";
     modeofpayment.value ="";
+
+//DATE ORDERED
+    let todayDate = new Date()
+    todayDateFormat = todayDate.toISOString().split('T')[0];
+    ordereddate.value = todayDateFormat;
+
 
     let showcloseBtns = modalMain.querySelector("#modal-btn-close");
     showcloseBtns.classList.remove('d-none');
@@ -195,15 +204,15 @@ function addTicketRecord(){
     const tblBody  = tblRow.querySelector('tbody');
 
     let newRow = tblBody.insertRow();
-    let col1 = newRow.insertCell(0); //Proj no
-    let col2 = newRow.insertCell(1); //title
-    let col3 = newRow.insertCell(2); //requested by   
-    let col4 = newRow.insertCell(3); //status
-    let col5 = newRow.insertCell(4); //action
-    let col6 = newRow.insertCell(5); //status
-    let col7 = newRow.insertCell(6); //action
-    let col8 = newRow.insertCell(7); //status
-    let col9 = newRow.insertCell(8); //action
+    let col1 = newRow.insertCell(0); 
+    let col2 = newRow.insertCell(1); 
+    let col3 = newRow.insertCell(2); 
+    let col4 = newRow.insertCell(3); 
+    let col5 = newRow.insertCell(4); 
+    let col6 = newRow.insertCell(5); 
+    let col7 = newRow.insertCell(6); 
+    let col8 = newRow.insertCell(7); 
+    let col9 = newRow.insertCell(8); 
     let col10 = newRow.insertCell(9); 
 
     col1.outerHTML = `<td class="align-middle">${modalHeader.value}</td>`;
@@ -225,6 +234,35 @@ function addTicketRecord(){
 
 }
 
+//TOAST 
+function generateToast(txtMessage, bgColor){
+    let toastFormat = `<div class="toast ${bgColor}" role="alert" aria-live="assertive" aria-atomic="true" id="test-toast">
+    <div class="toast-header ${bgColor}">
+      <img src="..." class="rounded me-2" alt="...">
+      <strong class="me-auto">Bootstrap</strong>
+      <small>11 mins ago</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+        ${txtMessage}
+    </div>
+    </div>`;
+    const toastContainer = document.querySelector(".toast-container");
+    toastContainer.innerHTML += toastFormat;
+
+    const  toastMain = document.querySelector('#test-toast');
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastMain);
+    toastBootstrap.show();
+
+}
+
+// FOR THE BUTTONS UNDER NEWLY CREATED PROJECTS TO WORK 
+function addGlobalEventListener(type, selector, callback){
+    document.addEventListener(type, e => { 
+        if(e.target.matches(selector)) callback(e);
+    });
+
+}
   
 //MAIN CONTENT
 document.addEventListener('DOMContentLoaded', function() {
@@ -240,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
        }
     });
 
-    //View Button
+//View Button
     viewButton = document.querySelectorAll('.view-ticket');
     viewButton.forEach(function(button){
         button.addEventListener('click', function(){
@@ -258,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    //Edit Button
+//Edit Button
     editButton = document.querySelectorAll('.edit-ticket');
     editButton.forEach(function(button){
         button.addEventListener('click', function(){
@@ -275,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     
     });
-    // Modal-Save Button
+// Modal-Save Button
     mdlSaveButton = document.querySelector('#modal-btn-save');
     mdlSaveButton.addEventListener('click', function(){
         const columns  = activeRow.querySelectorAll('td');
@@ -286,12 +324,13 @@ document.addEventListener('DOMContentLoaded', function() {
         columns[4].textContent = modalMain.querySelector('#shipment-date').value  
         columns[5].textContent = modalMain.querySelector('#quantity').value  
         columns[6].textContent = modalMain.querySelector('#payment-mode').value  
+        
 
 
 
     });
 
-    //MODAL WINDOW
+//MODAL WINDOW
     modalWindow =  document.querySelector('#viewTicketModal');
     modalWindow.addEventListener("hidden.bs.modal", function(){
         const inputFields = document.querySelectorAll(".form-control");
@@ -300,41 +339,40 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     })
 
-    //Add Button
+//Add Button
     addButton = document.querySelector('#add-ticket');
     addButton.addEventListener('click', function(){
         console.log("ADD BUTTON WAS CLICK");
         clearFieldValues();
         const inputFields = document.querySelectorAll(".form-control");
         inputFields.forEach(input => {
-            if(input.id != "date-completed" && input.id != "field-status") 
+            if(input.id != "date-completed" && input.id != "field-status" && input.id != "ordered-date" && input.id != "shipment-date") 
             {input.removeAttribute("disabled");}
         });
     });
 
+//Toast 
     const createButton = document.querySelector("#modal-btn-create");
     createButton.addEventListener('click', function(){
         addTicketRecord();
+        generateToast("Project has been added", "text-bg-primary");
     });
-
     
-
-
-    
-    // Delete Button
+// Delete Button
     deleteButton = document.querySelectorAll('.delete-ticket');
     deleteButton.forEach(function(button)
     {
         button.addEventListener('click', function()
         {
-            let row = this.parentElement.parentElement; 
-            const modalDelete = document.querySelector("#deleteModal");
-            const confirmDelBtn = modalDelete.querySelector("#modal-btn-delete");
-            confirmDelBtn.addEventListener("click", function()
-            {
-                row.remove();
-            });
+            currentRow = this.parentElement.parentElement; 
+            
         });
+        const modalDelete = document.querySelector("#deleteModal");
+        const confirmDelBtn = modalDelete.querySelector("#modal-btn-delete");
+        confirmDelBtn.addEventListener("click", function()
+            {
+                currentRow.remove();
+            });
 
     });
    
