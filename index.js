@@ -1,22 +1,21 @@
 currentRow = null;
 
 //Header Color
-function changeModalHeaderColor(status){
+function changeModalHeaderColor(status) {
     let modalHeader = document.getElementById('modal-header');
-    modalHeader.classList.remove('bg-warning','bg-success','bg-success','bg-danger');
+    modalHeader.classList.remove('bg-warning', 'bg-secondary', 'bg-success', 'bg-danger');
+
     switch (status) {
-        case 'shipdate':
-          modalHeader.classList.add('bg-warning');
-         break;
-        case 'On Queue':
-         break;      
-        case 'cancelled':
+        case 'Cancelled':
             modalHeader.classList.add('bg-primary');
-         break;      
+            break;
+        case 'Completed':
+            modalHeader.classList.add('bg-success');
+            break;
         default:
-     break;                    
-     }
-     
+            modalHeader.classList.add('bg-warning');
+            break;
+    }
 }
 
 //Fields Assignment
@@ -62,7 +61,7 @@ function assignRowFieldValues(row){
     }
     
 
-
+//Status
     if(tableNmae.getAttribute("id") == 'on-going'){
         status.value = columns[7].textContent;
     } else {
@@ -70,10 +69,6 @@ function assignRowFieldValues(row){
     }
 
     console.log(columns[7].textContent);
-
-
-    
-
     changeModalHeaderColor(columns[7].textContent);
 
     
@@ -187,6 +182,7 @@ function clearFieldValues(){
     
 }
 
+
 //Add Project
 function addTicketRecord(){
     let modalHeader = document.querySelector("#viewTicketModal");
@@ -223,23 +219,20 @@ function addTicketRecord(){
     col6.outerHTML = `<td class="align-middle">${shipdate1.value}</td>`;
     col7.outerHTML = `<td class="align-middle">${quantity1.value}</td>`;
     col8.outerHTML = `<td class="align-middle">${modeofpayment.value}</td>`;
-    col9.outerHTML = `<td class="align-middle">${statuss.value}</td>`;
+    col9.outerHTML = `<td class="badge align-middle rounded-pill text-bg-warning">${"On Going"}</td>`;
     col10.outerHTML = `<td class="align-middle text-center"> 
-    <button class="btn btn-success view-ticket" data-bs-toggle="modal" data-bs-target="#viewTicketModal">View</button>
+    <button class="btn btn-success view-ticket" data-bs-toggle="modal" data-bs-target="#viewT   icketModal">View</button>
     <button class="btn btn-danger edit-ticket" data-bs-toggle="modal" data-bs-target="#viewTicketModal">Edit</button>
     <button class="btn btn-warning ms-1 me-1 delete-ticket"data-bs-toggle="modal" data-bs-target="#deleteModal" >Delete</button>
     </td>`  ;
-
-    // generateToast("text-bg-success",`Inputted deck is ADDED`);
 
 }
 
 //TOAST 
 function generateToast(txtMessage, bgColor){
     let toastFormat = `<div class="toast ${bgColor}" role="alert" aria-live="assertive" aria-atomic="true" id="test-toast">
-    <div class="toast-header ${bgColor}">
-      <img src="..." class="rounded me-2" alt="...">
-      <strong class="me-auto">Bootstrap</strong>
+    <div class="toast-header bg-primary">
+      <strong class="me-auto">PROJECT</strong>
       <small>11 mins ago</small>
       <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
@@ -296,6 +289,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+
+
 //Edit Button
     editButton = document.querySelectorAll('.edit-ticket');
     editButton.forEach(function(button){
@@ -346,16 +341,16 @@ document.addEventListener('DOMContentLoaded', function() {
         clearFieldValues();
         const inputFields = document.querySelectorAll(".form-control");
         inputFields.forEach(input => {
-            if(input.id != "date-completed" && input.id != "field-status" && input.id != "ordered-date" && input.id != "shipment-date") 
+            if(input.id != "date-completed" && input.id != "field-status" && input.id != "ordered-date") 
             {input.removeAttribute("disabled");}
         });
     });
 
-//Toast 
+//CREATE BUTTON
     const createButton = document.querySelector("#modal-btn-create");
     createButton.addEventListener('click', function(){
         addTicketRecord();
-        generateToast("Project has been added", "text-bg-primary");
+        generateToast("Project has been added successfully!");
     });
     
 // Delete Button
